@@ -112,3 +112,101 @@ Insert Into tblPerson (Name,Gamil,GenderId,Age) values ('Rajesh','rr@gmail.com',
 --Drop Contstraint 
 Alter Table tblPerson
 Drop Constraint UQ_tblperson_email 
+
+
+Use[Simple5]
+GO
+
+--order By Dessending
+Select * from tblPerson Order by Name DESC
+Select * from tblPerson Order by Age ASC
+
+-- return top rows
+Select top 2 * from tblperson
+-- percent table
+Select  top 50 percent* from tblPerson
+
+Alter table tblPerson
+add Salary  int
+--Delete Column
+Alter table tblPerson 
+Drop Column Salary
+
+
+--set Null TO NOt null In Existing Column
+Alter table tblPerson
+alter Column Salary int NOT NULL
+
+--Use minimun and Maximun 
+SElect Min(Salary)  From tblPerson
+Select Max(Salary) from tblPerson
+Select Sum (Salary) from tblPerson
+
+--group By 
+Select City, sum(Salary) as totalSalary
+from tblPerson Group By City
+
+
+Select City,Age,Sum(Salary) as totalSalary
+from tblPerson Group By City ,Age 
+
+--Here show the result of 3 person age and city  is same.  Must use group By
+Select City,Age,Sum(Salary) as totalSalary,Count(Id) as [Total Person]
+from tblPerson Group By City,Age
+
+--count of number
+Select Count(Id) from tblPerson
+
+--felter the groups
+Select City,Age, Sum(Salary) as totalSalary,Count(Id) as TotalPerson
+from tblPerson 
+where Age= 50
+Group By City,Age
+
+--Having 
+Select City,Age,Sum(Salary) as totalSalary,Count(Id) as TotalPerson
+from tblPerson
+Group By City,Age
+Having Age=50
+
+Select City,Age,Sum(Salary) as totalSalary,Count(Id) as TOtalPerson
+from tblPerson
+Group By City,Age
+Having sum(Salary)>86000
+
+--Create Department Table and Employee
+Create Table Employee
+(
+Id int identity(1,1) not Null Primary Key,
+Name varchar(55) Not Null,
+Gender varchar(55) Not NULL,
+Salary int Not NUll,
+DepartmentId int NUll
+)
+Create Table Department
+(
+Id int Identity(1,1) not NULL Primary Key,
+Name varchar(55) not NUll,
+Location varChar(55) Not Null,
+Depa
+rtmentHead varchar(55) Null
+)
+Select * from Department
+Select * from Employee
+
+Alter Table Employee 
+Add Constraint FK_employee_DepartmentId
+foreign key(DepartmentId) references Department(Id)
+
+--Rename Column Name
+EXEC sp_RENAME 'Department.Name','DepartmentName','COLUMN'
+
+Insert Into Employee (Name,Gender,Salary) values('Sara','Female',82000)
+Insert Into Department (Name,Location,DepartmentHead) values ('BBA','RUET','RS Roy')
+--Join
+Select Name,Gender,Salary,DepartmentName
+from Employee 
+Join Department 
+on Employee.Id = Department.Id
+
+
